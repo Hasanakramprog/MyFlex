@@ -6,21 +6,33 @@ import 'models/history_model.dart';
 class HistoryService {
   static const String _historyKey = 'watch_history';
   
-  // Get all history items
-  Future<List<HistoryItem>> getHistory() async {
+  // // Get all history items
+  // Future<List<HistoryItem>> getHistory() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final historyJson = prefs.getStringList(_historyKey) ?? [];
+    
+  //   return historyJson
+  //       .map((json) => HistoryItem.fromMap(jsonDecode(json)))
+  //       .toList()
+  //       ..sort((a, b) => b.watchedAt.compareTo(a.watchedAt)); // Sort by most recent
+  // }
+
+    Future<List<HistoryItem>> getHistory() async {
     final prefs = await SharedPreferences.getInstance();
-    final historyJson = prefs.getStringList(_historyKey) ?? [];
+    final historyKey = await _getHistoryKey();
+    final historyJson = prefs.getStringList(historyKey) ?? [];
     
     return historyJson
         .map((json) => HistoryItem.fromMap(jsonDecode(json)))
         .toList()
-        ..sort((a, b) => b.watchedAt.compareTo(a.watchedAt)); // Sort by most recent
+        ..sort((a, b) => b.watchedAt.compareTo(a.watchedAt));
   }
   
   // Add or update a history item
   Future<void> addToHistory(HistoryItem item) async {
     final prefs = await SharedPreferences.getInstance();
-    final historyJson = prefs.getStringList(_historyKey) ?? [];
+    final historyKey = await _getHistoryKey();
+    final historyJson = prefs.getStringList(historyKey) ?? [];
     
     // Convert to a list of HistoryItem objects
     final List<HistoryItem> history = historyJson
@@ -45,7 +57,7 @@ class HistoryService {
     
     // Save back to shared preferences
     await prefs.setStringList(
-      _historyKey,
+      historyKey,
       history.map((item) => jsonEncode(item.toMap())).toList(),
     );
   }
@@ -53,7 +65,8 @@ class HistoryService {
   // Update an existing history item (by videoId)
   Future<void> updateHistoryItem(HistoryItem updatedItem) async {
     final prefs = await SharedPreferences.getInstance();
-    final historyJson = prefs.getStringList(_historyKey) ?? [];
+    final historyKey = await _getHistoryKey();
+    final historyJson = prefs.getStringList(historyKey) ?? [];
     
     // Convert to a list of HistoryItem objects
     final List<HistoryItem> history = historyJson
@@ -75,7 +88,7 @@ class HistoryService {
       
       // Save back to shared preferences
       await prefs.setStringList(
-        _historyKey,
+        historyKey,
         history.map((item) => jsonEncode(item.toMap())).toList(),
       );
     }
@@ -84,13 +97,15 @@ class HistoryService {
   // Clear all history
   Future<void> clearHistory() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_historyKey);
+    final historyKey = await _getHistoryKey();
+    await prefs.remove(historyKey);
   }
   
   // Remove a specific item from history
   Future<void> removeFromHistory(String videoId) async {
     final prefs = await SharedPreferences.getInstance();
-    final historyJson = prefs.getStringList(_historyKey) ?? [];
+    final historyKey = await _getHistoryKey();
+    final historyJson = prefs.getStringList(historyKey) ?? [];
     
     // Convert to a list of HistoryItem objects
     final List<HistoryItem> history = historyJson
@@ -102,7 +117,7 @@ class HistoryService {
     
     // Save back to shared preferences
     await prefs.setStringList(
-      _historyKey,
+      historyKey,
       history.map((item) => jsonEncode(item.toMap())).toList(),
     );
   }
@@ -120,4 +135,12 @@ class HistoryService {
   final history = await getHistory();
   return history.isNotEmpty ? history.first : null;
 }
+
+// Modify the key to include user ID
+  Future<String> _getHistoryKey() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('user_id') ?? 'anonymous';
+    return 'watch_history_$userId';
+  }
+
 }

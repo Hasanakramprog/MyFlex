@@ -69,6 +69,7 @@ class AuthService {
       await prefs.setString('user_display_name', user.displayName ?? '');
       await prefs.setString('user_email', user.email ?? '');
       await prefs.setString('user_photo_url', user.photoURL ?? '');
+      await prefs.setString('user_id', user.uid); // Add user ID
     }
   }
   
@@ -79,6 +80,7 @@ class AuthService {
       'displayName': prefs.getString('user_display_name') ?? '',
       'email': prefs.getString('user_email') ?? '',
       'photoURL': prefs.getString('user_photo_url') ?? '',
+      'userId': prefs.getString('user_id') ?? '', // Add user ID
     };
   }
   
@@ -86,4 +88,5 @@ class AuthService {
   Future<bool> isLoggedIn() async {
     return _auth.currentUser != null;
   }
+
 }
