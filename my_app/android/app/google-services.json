@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "599685827780",
+    "project_id": "myflix-135a5",
+    "storage_bucket": "myflix-135a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599685827780:android:59ba1021e7202abc8b0d91",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599685827780-3mpi15ipuq5e7aimluolh7s421i0lkd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my_app",
+            "certificate_hash": "cab76b80a73df019b05e832124e5b4f3a97db2c7"
+          }
+        },
+        {
+          "client_id": "599685827780-1adm34gbpvlm79ffirqhick0g9nelbjg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjSLfIW1UwU4IHVPO6tN35SVsqhMMG_l8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599685827780-1adm34gbpvlm79ffirqhick0g9nelbjg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
