@@ -333,28 +333,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeaturedVideo1() {
-    return FutureBuilder<List<VideoModel>>(
-      future: _trendingVideosFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            height: 250,
-            child: Center(child: CircularProgressIndicator(color: Colors.red)),
-          );
-        } else if (snapshot.hasError ||
-            !snapshot.hasData ||
-            snapshot.data!.isEmpty) {
-          // If there's an error or no data, show the fallback video
-          return _buildFeaturedVideoItem(_fallbackVideo);
-        }
-
-        // Use the first trending video as featured
-        VideoModel featuredVideo = snapshot.data![0];
-        return _buildFeaturedVideoItem(featuredVideo);
-      },
-    );
-  }
 
   Widget _buildFeaturedVideo() {
     return FutureBuilder<HistoryItem?>(
